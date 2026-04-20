@@ -1,0 +1,20 @@
+[
+  {
+    "name": "shaik shahid",
+    "email": "shahid.23bce9657@vitapstudent.ac.in",
+    "password": "shahid0789",
+    "registeredAt": "19/4/2026, 11:07:00 pm"
+  },
+  {
+    "name": "John Doe",
+    "email": "john@test.com",
+    "password": "pass123",
+    "registeredAt": "19/4/2026, 11:09:35 pm"
+  },
+  {
+    "name": "amar",
+    "email": "amar@gmail.com",
+    "password": "123456",
+    "registeredAt": "20/4/2026, 7:57:39 pm"
+  }
+]

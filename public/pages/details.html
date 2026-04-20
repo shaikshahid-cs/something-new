@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View detailed information about this course including duration, lessons, price, and what you'll learn." />
+  <title>Course Details — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        📘 Learn<span>Hub</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="nav-auth"></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======== PAGE HEADER ======== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="courses.html">Courses</a>
+        <span>›</span>
+        <span id="detail-category">Course</span>
+      </div>
+      <h1 id="detail-title">Course Title</h1>
+    </div>
+  </section>
+
+  <!-- ======== COURSE DETAIL ======== -->
+  <section class="container">
+    <div class="detail-layout">
+
+      <!-- Main Content -->
+      <div class="detail-main">
+        <img id="detail-image" src="" alt="Course Image" />
+
+        <h2>About This Course</h2>
+        <p id="detail-description">Loading course details...</p>
+
+        <h2>What You'll Get</h2>
+        <div class="detail-features">
+          <div class="detail-feature">
+            <span class="icon">⏱️</span>
+            <span id="detail-duration">—</span>
+          </div>
+          <div class="detail-feature">
+            <span class="icon">📚</span>
+            <span id="detail-lessons">—</span>
+          </div>
+          <div class="detail-feature">
+            <span class="icon">📊</span>
+            <span id="detail-level">—</span>
+          </div>
+          <div class="detail-feature">
+            <span class="icon">👥</span>
+            <span id="detail-students">—</span>
+          </div>
+          <div class="detail-feature">
+            <span class="icon">📜</span>
+            <span>Certificate</span>
+          </div>
+          <div class="detail-feature">
+            <span class="icon">♾️</span>
+            <span>Lifetime Access</span>
+          </div>
+        </div>
+
+        <h2>Course Curriculum</h2>
+        <p>This course is carefully structured into progressive modules that take you from the basics to advanced concepts. Each module includes video lessons, hands-on exercises, quizzes, and downloadable resources to reinforce your learning.</p>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="detail-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-price">
+            <span id="detail-price">—</span>
+            <span class="original" id="detail-original-price"></span>
+          </div>
+          <a href="payment.html" id="detail-enroll-btn" class="btn btn-primary btn-lg">Enroll Now</a>
+          <a href="contact.html" class="btn btn-outline">Ask a Question</a>
+
+          <div class="sidebar-info">
+            <div class="sidebar-info-item">
+              <span class="label">Duration</span>
+              <span class="value" id="sidebar-duration">—</span>
+            </div>
+            <div class="sidebar-info-item">
+              <span class="label">Lessons</span>
+              <span class="value" id="sidebar-lessons">—</span>
+            </div>
+            <div class="sidebar-info-item">
+              <span class="label">Level</span>
+              <span class="value" id="sidebar-level">—</span>
+            </div>
+            <div class="sidebar-info-item">
+              <span class="label">Certificate</span>
+              <span class="value">Yes</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- ======== CTA ======== -->
+  <section class="cta" style="margin-top: 40px;">
+    <div class="container">
+      <h2 class="fade-in">Ready to Start This Course?</h2>
+      <p class="fade-in">Enroll now and begin your learning journey today.</p>
+      <a href="payment.html" id="cta-enroll-btn" class="btn btn-white btn-lg fade-in">Enroll Now</a>
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">📘 Learn<span>Hub</span></div>
+          <p>Empowering learners with quality education. Affordable courses taught by industry experts.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Courses</h4>
+          <ul>
+            <li><a href="courses.html">Web Development</a></li>
+            <li><a href="courses.html">Python</a></li>
+            <li><a href="courses.html">Data Science</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">FAQs</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 LearnHub. All rights reserved. Made for College Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Extra script to also fill sidebar values -->
+  <script src="../js/script.js"></script>
+  <script>
+    // Fill sidebar duplicate fields after main script runs
+    document.addEventListener("DOMContentLoaded", function () {
+      const params = new URLSearchParams(window.location.search);
+      const courseId = parseInt(params.get("id"));
+      const course = courses.find(function (c) { return c.id === courseId; });
+      if (!course) return;
+
+      document.getElementById("sidebar-duration").textContent = course.duration;
+      document.getElementById("sidebar-lessons").textContent = course.lessons + " Lessons";
+      document.getElementById("sidebar-level").textContent = course.level;
+
+      // Also update CTA enroll link
+      const ctaBtn = document.getElementById("cta-enroll-btn");
+      if (ctaBtn) ctaBtn.href = "payment.html?id=" + course.id;
+    });
+  </script>
+</body>
+</html>

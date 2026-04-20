@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Watch course video lessons on LearnHub. Learn at your own pace with expert-led content." />
+  <title>Watch Course — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        📘 Learn<span>Hub</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="nav-auth"></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======== PAGE HEADER ======== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="enrolled.html">Enrolled Courses</a>
+        <span>›</span>
+        <span id="watch-breadcrumb">Watch</span>
+      </div>
+      <h1 id="watch-title">Loading Course...</h1>
+      <p id="watch-subtitle"></p>
+    </div>
+  </section>
+
+  <!-- ======== VIDEO PLAYER SECTION ======== -->
+  <section class="section">
+    <div class="container">
+      <div class="watch-layout">
+
+        <!-- Main Video Player -->
+        <div class="watch-main">
+          <div class="watch-video-container" id="watch-video-container">
+            <!-- Video iframe will be injected here -->
+            <div class="watch-video-placeholder" id="video-placeholder">
+              <div class="spinner"></div>
+              <p>Loading video...</p>
+            </div>
+          </div>
+
+          <!-- Course info below video -->
+          <div class="watch-info">
+            <div class="watch-info-header">
+              <h2 id="watch-course-title">Course Title</h2>
+              <span class="watch-category-badge" id="watch-category">Category</span>
+            </div>
+            <p class="watch-description" id="watch-description">
+              Course description will appear here.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sidebar with course details -->
+        <aside class="watch-sidebar">
+          <div class="sidebar-card">
+            <h3 style="margin-bottom: 20px; font-size: 1.1rem; font-weight: 700;">📋 Course Details</h3>
+
+            <div class="sidebar-info">
+              <div class="sidebar-info-item">
+                <span class="label">⏱️ Duration</span>
+                <span class="value" id="watch-duration">—</span>
+              </div>
+              <div class="sidebar-info-item">
+                <span class="label">📚 Lessons</span>
+                <span class="value" id="watch-lessons">—</span>
+              </div>
+              <div class="sidebar-info-item">
+                <span class="label">📊 Level</span>
+                <span class="value" id="watch-level">—</span>
+              </div>
+              <div class="sidebar-info-item">
+                <span class="label">📜 Certificate</span>
+                <span class="value">Yes</span>
+              </div>
+              <div class="sidebar-info-item">
+                <span class="label">♾️ Access</span>
+                <span class="value">Lifetime</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px;">
+              <a href="enrolled.html" class="btn btn-outline" style="width: 100%;">← Back to My Courses</a>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">📘 Learn<span>Hub</span></div>
+          <p>Empowering learners with quality education. Affordable courses taught by industry experts.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Courses</h4>
+          <ul>
+            <li><a href="courses.html">Web Development</a></li>
+            <li><a href="courses.html">Python</a></li>
+            <li><a href="courses.html">Data Science</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">FAQs</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 LearnHub. All rights reserved. Made for College Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    // -------- Watch Course Page Logic --------
+    document.addEventListener("DOMContentLoaded", function () {
+      // Read course data from query parameters
+      var params = new URLSearchParams(window.location.search);
+
+      var title = params.get("title");
+      var videoUrl = params.get("video");
+      var image = params.get("image");
+      var category = params.get("category");
+      var duration = params.get("duration");
+      var lessons = params.get("lessons");
+      var level = params.get("level");
+
+      // If no title provided, show error
+      if (!title) {
+        document.getElementById("watch-title").textContent = "Course Not Found";
+        document.getElementById("watch-subtitle").textContent = "No course was specified. Please go back and select a course.";
+        document.getElementById("video-placeholder").innerHTML =
+          '<div style="font-size: 3rem; margin-bottom: 12px;">❌</div>' +
+          '<p>No course selected</p>' +
+          '<a href="enrolled.html" class="btn btn-primary" style="margin-top: 16px;">Go to My Courses</a>';
+        return;
+      }
+
+      // Update page title
+      document.title = title + " — Watch on LearnHub";
+
+      // Fill in page header
+      document.getElementById("watch-title").textContent = "▶ " + title;
+      document.getElementById("watch-subtitle").textContent = "Watch the course video and learn at your own pace.";
+      document.getElementById("watch-breadcrumb").textContent = title;
+
+      // Fill in course info section
+      document.getElementById("watch-course-title").textContent = title;
+      document.getElementById("watch-category").textContent = category || "General";
+
+      // Find the full course data from the courses array for description
+      var courseData = courses.find(function (c) { return c.title === title; });
+      document.getElementById("watch-description").textContent =
+        courseData ? courseData.description : "Enjoy watching this course video. Learn at your own pace.";
+
+      // Fill sidebar
+      document.getElementById("watch-duration").textContent = duration || "—";
+      document.getElementById("watch-lessons").textContent = (lessons || "—") + " Lessons";
+      document.getElementById("watch-level").textContent = level || "—";
+
+      // Embed the YouTube video
+      var videoContainer = document.getElementById("watch-video-container");
+
+      if (videoUrl) {
+        videoContainer.innerHTML =
+          '<iframe ' +
+          '  id="course-video-player" ' +
+          '  src="' + videoUrl + '" ' +
+          '  title="' + title + '" ' +
+          '  frameborder="0" ' +
+          '  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+          '  allowfullscreen>' +
+          '</iframe>';
+      } else {
+        // No video URL — show the course image with a message
+        videoContainer.innerHTML =
+          '<div class="watch-no-video">' +
+          '  <img src="' + (image || "images/course-webdev.png") + '" alt="' + title + '" />' +
+          '  <div class="watch-no-video-overlay">' +
+          '    <div style="font-size: 3rem;">🎬</div>' +
+          '    <p>Video coming soon!</p>' +
+          '  </div>' +
+          '</div>';
+      }
+    });
+  </script>
+
+</body>
+</html>

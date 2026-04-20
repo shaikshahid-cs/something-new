@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Admin login for LearnHub platform management." />
+  <title>Admin Login — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== AUTH PAGE LAYOUT ======== -->
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <!-- Logo -->
+      <a href="index.html" class="auth-logo">📘 Learn<span>Hub</span></a>
+
+      <!-- Admin badge -->
+      <div class="admin-badge">🔒 Admin Access</div>
+
+      <h1>Admin Login</h1>
+      <p class="auth-subtitle">Enter your admin credentials to access the dashboard.</p>
+
+      <!-- Admin Login Form -->
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label for="admin-username">Username</label>
+          <input type="text" id="admin-username" placeholder="Enter admin username" required />
+        </div>
+
+        <div class="form-group">
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" placeholder="Enter admin password" required />
+        </div>
+
+        <!-- Error / Success message area -->
+        <div class="auth-message" id="admin-message"></div>
+
+        <button type="submit" class="btn btn-primary btn-lg" id="admin-btn">Login as Admin</button>
+      </form>
+
+      <!-- Footer links -->
+      <div class="auth-footer">
+        <p>Not an admin? <a href="login.html">User Login</a></p>
+        <p><a href="index.html">← Back to Home</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // -------- Hardcoded Admin Credentials --------
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "1234";
+
+    // -------- Admin Login Handler (No Backend) --------
+    document.getElementById("admin-login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const messageEl = document.getElementById("admin-message");
+      messageEl.textContent = "";
+      messageEl.className = "auth-message";
+
+      // Get input values
+      const username = document.getElementById("admin-username").value.trim();
+      const password = document.getElementById("admin-password").value;
+
+      // Check credentials
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        // Success — redirect to admin dashboard
+        messageEl.textContent = "Login successful! Redirecting to dashboard...";
+        messageEl.classList.add("success");
+
+        setTimeout(function () {
+          window.location.href = "admin.html";
+        }, 1000);
+      } else {
+        // Failed — show error
+        messageEl.textContent = "Invalid username or password. Please try again.";
+        messageEl.classList.add("error");
+      }
+    });
+  </script>
+
+</body>
+</html>

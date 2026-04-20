@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LearnHub Admin Dashboard — View enrollments, contacts, and registered users." />
+  <title>Admin Dashboard — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        📘 Learn<span>Hub</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="admin.html" class="active">Dashboard</a></li>
+        <li><a href="admin-login.html" class="btn btn-outline" style="padding: 8px 20px;">Logout</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======== PAGE HEADER ======== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Admin Dashboard</span>
+      </div>
+      <h1>🔒 Admin Dashboard</h1>
+      <p>View all registered users, enrollments, and contact messages.</p>
+    </div>
+  </section>
+
+  <!-- ======== DASHBOARD CONTENT ======== -->
+  <section class="section">
+    <div class="container">
+
+      <!-- Stats Cards -->
+      <div class="admin-stats" id="admin-stats">
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">👥</div>
+          <div class="admin-stat-number" id="stat-users">—</div>
+          <div class="admin-stat-label">Registered Users</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">📝</div>
+          <div class="admin-stat-number" id="stat-enrollments">—</div>
+          <div class="admin-stat-label">Enrollments</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">💬</div>
+          <div class="admin-stat-number" id="stat-contacts">—</div>
+          <div class="admin-stat-label">Messages</div>
+        </div>
+      </div>
+
+      <!-- Users Table -->
+      <div class="admin-table-section">
+        <h2>📋 Registered Users</h2>
+        <div class="admin-table-wrapper">
+          <table class="admin-table" id="users-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Registered At</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="4" class="table-empty">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Enrollments Table -->
+      <div class="admin-table-section">
+        <h2>📝 Enrollments</h2>
+        <div class="admin-table-wrapper">
+          <table class="admin-table" id="enrollments-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Course</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="enrollments-tbody">
+              <tr><td colspan="6" class="table-empty">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Contacts Table -->
+      <div class="admin-table-section">
+        <h2>💬 Contact Messages</h2>
+        <div class="admin-table-wrapper">
+          <table class="admin-table" id="contacts-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="contacts-tbody">
+              <tr><td colspan="5" class="table-empty">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border: none; padding: 0;">
+        <p>&copy; 2026 LearnHub. Admin Dashboard. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    // -------- Load Admin Dashboard Data --------
+    // API_URL is already defined in script.js
+    // Fetch data from a GET endpoint and populate a table
+    function loadTableData(endpoint, tbodyId, columns, statId) {
+      fetch(API_URL + endpoint)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          const tbody = document.getElementById(tbodyId);
+          const statEl = document.getElementById(statId);
+
+          // Update stat count
+          if (statEl) statEl.textContent = data.length;
+
+          if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="' + columns.length + '" class="table-empty">No data yet.</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = data.map(function (item, index) {
+            return "<tr>" +
+              "<td>" + (index + 1) + "</td>" +
+              columns.map(function (col) {
+                return "<td>" + (item[col] || "—") + "</td>";
+              }).join("") +
+              "</tr>";
+          }).join("");
+        })
+        .catch(function (err) {
+          console.error("Error loading " + endpoint + ":", err);
+          var tbody = document.getElementById(tbodyId);
+          tbody.innerHTML = '<tr><td colspan="10" class="table-empty">Could not load data. Is the server running?</td></tr>';
+          if (document.getElementById(statId)) {
+            document.getElementById(statId).textContent = "—";
+          }
+        });
+    }
+
+    // Load all data on page load
+    document.addEventListener("DOMContentLoaded", function () {
+      loadTableData("/api/users", "users-tbody", ["name", "email", "registeredAt"], "stat-users");
+      loadTableData("/enrollments", "enrollments-tbody", ["name", "email", "phone", "course", "submittedAt"], "stat-enrollments");
+      loadTableData("/contacts", "contacts-tbody", ["name", "email", "message", "submittedAt"], "stat-contacts");
+    });
+  </script>
+
+</body>
+</html>

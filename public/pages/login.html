@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Login to your LearnHub account to access courses and track your progress." />
+  <title>Login — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== AUTH PAGE LAYOUT ======== -->
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <!-- Logo -->
+      <a href="index.html" class="auth-logo">📘 Learn<span>Hub</span></a>
+
+      <h1>Welcome Back</h1>
+      <p class="auth-subtitle">Login to your account to continue learning.</p>
+
+      <!-- Login Form -->
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" placeholder="e.g. rahul@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required />
+        </div>
+
+        <!-- Error / Success message area -->
+        <div class="auth-message" id="login-message"></div>
+
+        <button type="submit" class="btn btn-primary btn-lg" id="login-btn">Login</button>
+      </form>
+
+      <!-- Footer links -->
+      <div class="auth-footer">
+        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+        <p><a href="admin-login.html">Admin Login</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // -------- Backend API URL --------
+    const API_URL = "http://localhost:5000";
+
+    // -------- Login Form Handler --------
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const messageEl = document.getElementById("login-message");
+      messageEl.textContent = "";
+      messageEl.className = "auth-message";
+
+      // Collect form values
+      const data = {
+        email: document.getElementById("login-email").value,
+        password: document.getElementById("login-password").value,
+      };
+
+      // Disable button while loading
+      const btn = document.getElementById("login-btn");
+      btn.textContent = "Logging in...";
+      btn.disabled = true;
+
+      // Send POST request to /login
+      fetch(API_URL + "/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (result) {
+          if (result.success) {
+            // ✅ Store user in localStorage
+            localStorage.setItem("user", JSON.stringify({
+              name: result.name,
+              email: data.email,
+            }));
+
+            // Show success message briefly, then redirect
+            messageEl.textContent = "Login successful! Redirecting...";
+            messageEl.classList.add("success");
+
+            setTimeout(function () {
+              window.location.href = "index.html";
+            }, 1000);
+          } else {
+            // Show error
+            messageEl.textContent = result.message || "Invalid email or password.";
+            messageEl.classList.add("error");
+            btn.textContent = "Login";
+            btn.disabled = false;
+          }
+        })
+        .catch(function (error) {
+          console.error("Login error:", error);
+          messageEl.textContent = "Could not connect to server. Make sure backend is running on port 5000.";
+          messageEl.classList.add("error");
+          btn.textContent = "Login";
+          btn.disabled = false;
+        });
+    });
+  </script>
+
+</body>
+</html>

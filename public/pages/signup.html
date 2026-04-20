@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Create your LearnHub account. Sign up to start learning with expert-led courses." />
+  <title>Sign Up — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== AUTH PAGE LAYOUT ======== -->
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <!-- Logo -->
+      <a href="index.html" class="auth-logo">📘 Learn<span>Hub</span></a>
+
+      <h1>Create Account</h1>
+      <p class="auth-subtitle">Join LearnHub and start your learning journey today.</p>
+
+      <!-- Signup Form -->
+      <form id="signup-form">
+        <div class="form-group">
+          <label for="signup-name">Full Name</label>
+          <input type="text" id="signup-name" placeholder="e.g. Rahul Sharma" required />
+        </div>
+
+        <div class="form-group">
+          <label for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" placeholder="e.g. rahul@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" placeholder="Create a password" minlength="4" required />
+        </div>
+
+        <!-- Error message area -->
+        <div class="auth-message" id="signup-message"></div>
+
+        <button type="submit" class="btn btn-primary btn-lg" id="signup-btn">Sign Up</button>
+      </form>
+
+      <!-- Success State -->
+      <div class="form-success" id="signup-success">
+        <div class="icon">🎉</div>
+        <h3>Account Created!</h3>
+        <p>Your account has been created successfully.</p>
+        <br />
+        <a href="login.html" class="btn btn-primary">Go to Login</a>
+      </div>
+
+      <!-- Footer links -->
+      <div class="auth-footer">
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+        <p><a href="admin-login.html">Admin Login</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // -------- Backend API URL --------
+    const API_URL = "http://localhost:5000";
+
+    // -------- Signup Form Handler --------
+    document.getElementById("signup-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const messageEl = document.getElementById("signup-message");
+      messageEl.textContent = "";
+      messageEl.className = "auth-message";
+
+      // Collect form values
+      const data = {
+        name: document.getElementById("signup-name").value,
+        email: document.getElementById("signup-email").value,
+        password: document.getElementById("signup-password").value,
+      };
+
+      // Disable button while loading
+      const btn = document.getElementById("signup-btn");
+      btn.textContent = "Creating Account...";
+      btn.disabled = true;
+
+      // Send POST request to /signup
+      fetch(API_URL + "/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (result) {
+          if (result.success) {
+            // Show success state
+            document.getElementById("signup-form").style.display = "none";
+            document.getElementById("signup-success").classList.add("show");
+          } else {
+            // Show error
+            messageEl.textContent = result.message || "Signup failed. Please try again.";
+            messageEl.classList.add("error");
+            btn.textContent = "Sign Up";
+            btn.disabled = false;
+          }
+        })
+        .catch(function (error) {
+          console.error("Signup error:", error);
+          messageEl.textContent = "Could not connect to server. Make sure backend is running on port 5000.";
+          messageEl.classList.add("error");
+          btn.textContent = "Sign Up";
+          btn.disabled = false;
+        });
+    });
+  </script>
+
+</body>
+</html>

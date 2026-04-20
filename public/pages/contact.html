@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact the LearnHub team. We're here to help with your questions about courses, enrollment, and more." />
+  <title>Contact Us — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        📘 Learn<span>Hub</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="nav-auth"></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======== PAGE HEADER ======== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Contact</span>
+      </div>
+      <h1>Get in Touch</h1>
+      <p>Have questions, suggestions, or need help? We'd love to hear from you.</p>
+    </div>
+  </section>
+
+  <!-- ======== CONTACT SECTION ======== -->
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Contact Info -->
+      <div>
+        <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 24px; padding-top: 60px;">Contact Information</h2>
+
+        <div class="contact-info-card">
+          <div class="icon">📧</div>
+          <div>
+            <h4>Email</h4>
+            <p>support@learnhub.com</p>
+          </div>
+        </div>
+
+        <div class="contact-info-card">
+          <div class="icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+91 98765 43210</p>
+          </div>
+        </div>
+
+        <div class="contact-info-card">
+          <div class="icon">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>123 Learning Street, Education City, India — 400001</p>
+          </div>
+        </div>
+
+        <div class="contact-info-card">
+          <div class="icon">🕐</div>
+          <div>
+            <h4>Working Hours</h4>
+            <p>Mon — Fri, 9:00 AM — 6:00 PM IST</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div style="padding-top: 60px;">
+        <div class="form-card">
+          <h2>Send a Message</h2>
+          <p class="form-subtitle">Fill in the form and we'll respond within 24 hours.</p>
+
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="contact-name">Your Name</label>
+              <input type="text" id="contact-name" placeholder="e.g. Priya Patel" required />
+            </div>
+
+            <div class="form-group">
+              <label for="contact-email">Email Address</label>
+              <input type="email" id="contact-email" placeholder="e.g. priya@email.com" required />
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" placeholder="Write your message here..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+          </form>
+
+          <!-- Success State -->
+          <div class="form-success" id="contact-success">
+            <div class="icon">✅</div>
+            <h3>Message Sent!</h3>
+            <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
+            <br />
+            <a href="index.html" class="btn btn-outline">Back to Home</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer" style="margin-top: 80px;">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">📘 Learn<span>Hub</span></div>
+          <p>Empowering learners with quality education. Affordable courses taught by industry experts.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Courses</h4>
+          <ul>
+            <li><a href="courses.html">Web Development</a></li>
+            <li><a href="courses.html">Python</a></li>
+            <li><a href="courses.html">Data Science</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">FAQs</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 LearnHub. All rights reserved. Made for College Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>

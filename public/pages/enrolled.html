@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View and access all your enrolled courses on LearnHub. Start watching lessons now." />
+  <title>Enrolled Courses — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        📘 Learn<span>Hub</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="nav-auth"></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======== PAGE HEADER ======== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Enrolled Courses</span>
+      </div>
+      <h1>🎓 Enrolled Courses</h1>
+      <p>Your learning dashboard — access all enrolled courses and start watching lessons.</p>
+    </div>
+  </section>
+
+  <!-- ======== ENROLLED COURSES CONTENT ======== -->
+  <section class="section">
+    <div class="container">
+
+      <!-- Loading spinner -->
+      <div id="enrolled-loading" class="enrolled-loading">
+        <div class="spinner"></div>
+        <p>Loading your courses...</p>
+      </div>
+
+      <!-- Not logged in message -->
+      <div id="not-logged-in" style="display: none;">
+        <div class="form-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">🔒</div>
+          <h2>Please Login First</h2>
+          <p class="form-subtitle">You need to be logged in to view your enrolled courses.</p>
+          <a href="login.html" class="btn btn-primary btn-lg">Login</a>
+        </div>
+      </div>
+
+      <!-- No courses message -->
+      <div id="no-courses" style="display: none;">
+        <div class="form-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">📭</div>
+          <h2>No Courses Yet</h2>
+          <p class="form-subtitle">You haven't enrolled in any courses yet. Browse our catalog and get started!</p>
+          <a href="courses.html" class="btn btn-primary btn-lg">Browse Courses</a>
+        </div>
+      </div>
+
+      <!-- Enrolled course cards grid -->
+      <div id="enrolled-courses-grid" class="enrolled-grid"></div>
+
+    </div>
+  </section>
+
+  <!-- ======== CTA ======== -->
+  <section class="cta" id="enrolled-cta" style="display: none;">
+    <div class="container">
+      <h2 class="fade-in">Want to Learn More?</h2>
+      <p class="fade-in">Explore our full course catalog and expand your skills.</p>
+      <a href="courses.html" class="btn btn-white btn-lg fade-in">Browse All Courses</a>
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">📘 Learn<span>Hub</span></div>
+          <p>Empowering learners with quality education. Affordable courses taught by industry experts.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Courses</h4>
+          <ul>
+            <li><a href="courses.html">Web Development</a></li>
+            <li><a href="courses.html">Python</a></li>
+            <li><a href="courses.html">Data Science</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">FAQs</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 LearnHub. All rights reserved. Made for College Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    // -------- Enrolled Courses Page Logic --------
+    document.addEventListener("DOMContentLoaded", function () {
+      var loadingEl = document.getElementById("enrolled-loading");
+      var notLoggedInEl = document.getElementById("not-logged-in");
+      var noCoursesEl = document.getElementById("no-courses");
+      var gridEl = document.getElementById("enrolled-courses-grid");
+      var ctaEl = document.getElementById("enrolled-cta");
+
+      // Check if user is logged in
+      var user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user || !user.email) {
+        // Not logged in — show login prompt
+        loadingEl.style.display = "none";
+        notLoggedInEl.style.display = "block";
+        return;
+      }
+
+      // Fetch enrolled courses from backend API
+      fetch(API_URL + "/api/my-courses?email=" + encodeURIComponent(user.email))
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (courses) {
+          // Hide loading
+          loadingEl.style.display = "none";
+
+          if (!courses || courses.length === 0) {
+            // No courses enrolled
+            noCoursesEl.style.display = "block";
+            return;
+          }
+
+          // Show CTA section
+          ctaEl.style.display = "block";
+
+          // Build course cards
+          gridEl.innerHTML = courses.map(function (course, index) {
+            return '<div class="enrolled-card fade-in" style="animation-delay: ' + (index * 0.1) + 's">' +
+              '  <div class="enrolled-card-img-wrapper">' +
+              '    <img src="' + course.image + '" alt="' + course.title + '" class="enrolled-card-img" />' +
+              '    <div class="enrolled-card-badge">' + course.category + '</div>' +
+              '  </div>' +
+              '  <div class="enrolled-card-body">' +
+              '    <h3 class="enrolled-card-title">' + course.title + '</h3>' +
+              '    <p class="enrolled-card-desc">' + course.description + '</p>' +
+              '    <div class="enrolled-card-meta">' +
+              '      <span>⏱️ ' + course.duration + '</span>' +
+              '      <span>📚 ' + course.lessons + ' Lessons</span>' +
+              '      <span>📊 ' + course.level + '</span>' +
+              '    </div>' +
+              '    <div class="enrolled-card-footer">' +
+              '      <span class="enrolled-card-date">Enrolled: ' + (course.enrolledAt || "—") + '</span>' +
+              '      <a href="watch.html?title=' + encodeURIComponent(course.title) +
+              '&video=' + encodeURIComponent(course.video) +
+              '&image=' + encodeURIComponent(course.image) +
+              '&category=' + encodeURIComponent(course.category) +
+              '&duration=' + encodeURIComponent(course.duration) +
+              '&lessons=' + encodeURIComponent(course.lessons) +
+              '&level=' + encodeURIComponent(course.level) +
+              '" class="btn btn-primary btn-watch" id="watch-btn-' + index + '">▶ Watch Course</a>' +
+              '    </div>' +
+              '  </div>' +
+              '</div>';
+          }).join("");
+
+          // Re-init scroll reveal for new elements
+          initScrollReveal();
+        })
+        .catch(function (err) {
+          console.error("Error loading enrolled courses:", err);
+          loadingEl.style.display = "none";
+          gridEl.innerHTML =
+            '<div class="form-card" style="max-width: 500px; margin: 0 auto; text-align: center;">' +
+            '  <h2>⚠️ Connection Error</h2>' +
+            '  <p class="form-subtitle">Could not load your courses. Make sure the backend server is running on port 5000.</p>' +
+            '  <button class="btn btn-primary" onclick="location.reload()">Try Again</button>' +
+            '</div>';
+        });
+    });
+  </script>
+
+</body>
+</html>

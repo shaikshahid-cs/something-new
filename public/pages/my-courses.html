@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View your enrolled courses and start learning on LearnHub." />
+  <title>My Courses — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        📘 Learn<span>Hub</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="nav-auth"></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======== PAGE HEADER ======== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>My Courses</span>
+      </div>
+      <h1>📚 My Courses</h1>
+      <p>View all the courses you've enrolled in and continue learning.</p>
+    </div>
+  </section>
+
+  <!-- ======== MY COURSES CONTENT ======== -->
+  <section class="section">
+    <div class="container">
+
+      <!-- Not logged in message -->
+      <div id="not-logged-in" style="display: none;">
+        <div class="form-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">🔒</div>
+          <h2>Please Login First</h2>
+          <p class="form-subtitle">You need to be logged in to view your enrolled courses.</p>
+          <a href="login.html" class="btn btn-primary btn-lg">Login</a>
+        </div>
+      </div>
+
+      <!-- No courses message -->
+      <div id="no-courses" style="display: none;">
+        <div class="form-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">📭</div>
+          <h2>No Courses Yet</h2>
+          <p class="form-subtitle">You haven't enrolled in any courses yet. Browse our catalog and get started!</p>
+          <a href="courses.html" class="btn btn-primary btn-lg">Browse Courses</a>
+        </div>
+      </div>
+
+      <!-- Course list -->
+      <div id="my-courses-list"></div>
+
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">📘 Learn<span>Hub</span></div>
+          <p>Empowering learners with quality education. Affordable courses taught by industry experts.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Courses</h4>
+          <ul>
+            <li><a href="courses.html">Web Development</a></li>
+            <li><a href="courses.html">Python</a></li>
+            <li><a href="courses.html">Data Science</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">FAQs</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 LearnHub. All rights reserved. Made for College Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    // -------- My Courses Page Logic --------
+    // Uses the /api/my-courses endpoint for server-side filtering
+    document.addEventListener("DOMContentLoaded", function () {
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      // If not logged in, show login prompt
+      if (!user || !user.email) {
+        document.getElementById("not-logged-in").style.display = "block";
+        return;
+      }
+
+      // Fetch enrolled courses from the proper REST API endpoint
+      fetch(API_URL + "/api/my-courses?email=" + encodeURIComponent(user.email))
+        .then(function (res) { return res.json(); })
+        .then(function (myCourses) {
+
+          if (myCourses.length === 0) {
+            document.getElementById("no-courses").style.display = "block";
+            return;
+          }
+
+          // Build course cards with YouTube embeds
+          const container = document.getElementById("my-courses-list");
+          container.innerHTML = myCourses.map(function (course) {
+
+            var videoEmbed = "";
+            if (course.video) {
+              videoEmbed = '\n' +
+                '<div class="my-course-video">\n' +
+                '  <iframe \n' +
+                '    src="' + course.video + '" \n' +
+                '    title="' + course.title + '" \n' +
+                '    frameborder="0" \n' +
+                '    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" \n' +
+                '    allowfullscreen>\n' +
+                '  </iframe>\n' +
+                '</div>\n';
+            }
+
+            return '\n' +
+              '<div class="my-course-card fade-in">\n' +
+              '  <img src="' + course.image + '" alt="' + course.title + '" class="my-course-img" />\n' +
+              '  <div class="my-course-body">\n' +
+              '    <h3>' + course.title + '</h3>\n' +
+              '    <p class="my-course-date">Enrolled on: ' + (course.enrolledAt || "—") + '</p>\n' +
+              '    ' + videoEmbed + '\n' +
+              '    <a href="watch.html?title=' + encodeURIComponent(course.title) +
+              '&video=' + encodeURIComponent(course.video) +
+              '&image=' + encodeURIComponent(course.image) +
+              '&category=' + encodeURIComponent(course.category) +
+              '&duration=' + encodeURIComponent(course.duration) +
+              '&lessons=' + encodeURIComponent(course.lessons) +
+              '&level=' + encodeURIComponent(course.level) +
+              '" class="btn btn-primary" style="margin-top: 16px;">▶ Watch Course</a>\n' +
+              '  </div>\n' +
+              '</div>\n';
+          }).join("");
+
+          // Re-init scroll reveal for new elements
+          initScrollReveal();
+        })
+        .catch(function (err) {
+          console.error("Error loading enrollments:", err);
+          document.getElementById("my-courses-list").innerHTML =
+            '<div class="form-card" style="max-width: 500px; margin: 0 auto; text-align: center;">' +
+            '  <h2>⚠️ Error</h2>' +
+            '  <p class="form-subtitle">Could not load your courses. Make sure the backend server is running.</p>' +
+            '</div>';
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Complete your payment and enroll in a LearnHub course." />
+  <title>Payment — LearnHub</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- ======== NAVBAR ======== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        📘 Learn<span>Hub</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="nav-auth"></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======== PAGE HEADER ======== -->
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="courses.html">Courses</a>
+        <span>›</span>
+        <span>Payment</span>
+      </div>
+      <h1>💳 Complete Payment</h1>
+      <p>Review your order and complete the payment to start learning.</p>
+    </div>
+  </section>
+
+  <!-- ======== PAYMENT CONTENT ======== -->
+  <div class="container">
+    <div class="form-section" style="max-width: 580px;">
+
+      <!-- Not logged in message -->
+      <div id="payment-not-logged-in" style="display: none;">
+        <div class="form-card" style="text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">🔒</div>
+          <h2>Please Login First</h2>
+          <p class="form-subtitle">You need to be logged in to purchase a course.</p>
+          <a href="login.html" class="btn btn-primary btn-lg" id="login-redirect-btn">Login</a>
+        </div>
+      </div>
+
+      <!-- Course not found message -->
+      <div id="payment-not-found" style="display: none;">
+        <div class="form-card" style="text-align: center;">
+          <div style="font-size: 3rem; margin-bottom: 16px;">❌</div>
+          <h2>Course Not Found</h2>
+          <p class="form-subtitle">The selected course could not be found. Please go back and try again.</p>
+          <a href="courses.html" class="btn btn-primary btn-lg" id="back-to-courses-btn">Browse Courses</a>
+        </div>
+      </div>
+
+      <!-- Payment Card (main content) -->
+      <div id="payment-card" class="payment-card" style="display: none;">
+
+        <!-- Order summary section -->
+        <div class="payment-order-summary">
+          <h2>📋 Order Summary</h2>
+          <div class="payment-course-info">
+            <img id="payment-course-img" src="" alt="Course" class="payment-course-thumb" />
+            <div class="payment-course-details">
+              <span class="payment-course-category" id="payment-category">Category</span>
+              <h3 id="payment-course-title">Course Title</h3>
+              <div class="payment-course-meta">
+                <span id="payment-duration">⏱️ —</span>
+                <span id="payment-lessons">📚 —</span>
+                <span id="payment-level">📊 —</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="payment-price-breakdown">
+            <div class="payment-price-row">
+              <span>Course Price</span>
+              <span class="payment-original-price" id="payment-original-price">—</span>
+            </div>
+            <div class="payment-price-row">
+              <span>Discount</span>
+              <span class="payment-discount" id="payment-discount">—</span>
+            </div>
+            <div class="payment-price-row payment-total-row">
+              <span>Total</span>
+              <span class="payment-total" id="payment-total">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment method (simulated) -->
+        <div class="payment-method-section">
+          <h3>💳 Payment Method</h3>
+          <div class="payment-methods">
+            <label class="payment-method-option selected" id="method-card">
+              <input type="radio" name="payment-method" value="card" checked />
+              <span class="payment-method-icon">💳</span>
+              <span>Credit / Debit Card</span>
+            </label>
+            <label class="payment-method-option" id="method-upi">
+              <input type="radio" name="payment-method" value="upi" />
+              <span class="payment-method-icon">📱</span>
+              <span>UPI</span>
+            </label>
+            <label class="payment-method-option" id="method-wallet">
+              <input type="radio" name="payment-method" value="wallet" />
+              <span class="payment-method-icon">👛</span>
+              <span>Wallet</span>
+            </label>
+          </div>
+          <p class="payment-note">🔒 This is a simulated payment. No real money will be charged.</p>
+        </div>
+
+        <!-- Pay button -->
+        <button class="btn btn-primary btn-lg payment-pay-btn" id="pay-now-btn">
+          Pay Now — <span id="pay-btn-price">—</span>
+        </button>
+      </div>
+
+      <!-- Processing state -->
+      <div id="payment-processing" class="payment-processing" style="display: none;">
+        <div class="form-card" style="text-align: center; padding: 60px 40px;">
+          <div class="spinner"></div>
+          <h2 style="margin-top: 16px;">Processing Payment...</h2>
+          <p class="form-subtitle">Please wait while we confirm your payment.</p>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div id="payment-success" class="payment-success" style="display: none;">
+        <div class="form-card" style="text-align: center; padding: 48px 40px;">
+          <div class="payment-success-icon">✅</div>
+          <h2>Payment Successful!</h2>
+          <p class="form-subtitle" id="success-message">
+            You have been enrolled in the course. Redirecting to your courses...
+          </p>
+          <div class="payment-success-details">
+            <div class="payment-success-row">
+              <span>Course</span>
+              <span id="success-course-name">—</span>
+            </div>
+            <div class="payment-success-row">
+              <span>Amount Paid</span>
+              <span id="success-amount">—</span>
+            </div>
+            <div class="payment-success-row">
+              <span>Transaction ID</span>
+              <span id="success-txn-id">—</span>
+            </div>
+          </div>
+          <a href="enrolled.html" class="btn btn-primary btn-lg" id="go-to-courses-btn" style="margin-top: 24px;">
+            Go to My Courses
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">📘 Learn<span>Hub</span></div>
+          <p>Empowering learners with quality education. Affordable courses taught by industry experts.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Courses</h4>
+          <ul>
+            <li><a href="courses.html">Web Development</a></li>
+            <li><a href="courses.html">Python</a></li>
+            <li><a href="courses.html">Data Science</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="contact.html">Help Center</a></li>
+            <li><a href="contact.html">FAQs</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 LearnHub. All rights reserved. Made for College Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script>
+    // -------- Payment Page Logic --------
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // --- DOM Elements ---
+      var notLoggedInEl = document.getElementById("payment-not-logged-in");
+      var notFoundEl = document.getElementById("payment-not-found");
+      var paymentCardEl = document.getElementById("payment-card");
+      var processingEl = document.getElementById("payment-processing");
+      var successEl = document.getElementById("payment-success");
+      var payNowBtn = document.getElementById("pay-now-btn");
+
+      // --- Step 1: Check if user is logged in ---
+      var user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user || !user.email) {
+        notLoggedInEl.style.display = "block";
+        return;
+      }
+
+      // --- Step 2: Get course ID from URL ---
+      var params = new URLSearchParams(window.location.search);
+      var courseId = parseInt(params.get("id"));
+
+      // Find course from the courses array (defined in script.js)
+      var course = courses.find(function (c) {
+        return c.id === courseId;
+      });
+
+      if (!course) {
+        notFoundEl.style.display = "block";
+        return;
+      }
+
+      // --- Step 3: Update page title ---
+      document.title = "Pay for " + course.title + " — LearnHub";
+
+      // --- Step 4: Fill in course details ---
+      document.getElementById("payment-course-img").src = course.image;
+      document.getElementById("payment-course-img").alt = course.title;
+      document.getElementById("payment-category").textContent = course.category;
+      document.getElementById("payment-course-title").textContent = course.title;
+      document.getElementById("payment-duration").textContent = "⏱️ " + course.duration;
+      document.getElementById("payment-lessons").textContent = "📚 " + course.lessons + " Lessons";
+      document.getElementById("payment-level").textContent = "📊 " + course.level;
+
+      // Price breakdown
+      document.getElementById("payment-original-price").textContent = course.originalPrice;
+      document.getElementById("payment-total").textContent = course.price;
+      document.getElementById("pay-btn-price").textContent = course.price;
+
+      // Calculate discount
+      var originalNum = parseInt(course.originalPrice.replace(/[^\d]/g, ""));
+      var priceNum = parseInt(course.price.replace(/[^\d]/g, ""));
+      var discountNum = originalNum - priceNum;
+      document.getElementById("payment-discount").textContent = "- ₹" + discountNum.toLocaleString("en-IN");
+
+      // Show the payment card
+      paymentCardEl.style.display = "block";
+
+      // --- Step 5: Payment method selection ---
+      var methodOptions = document.querySelectorAll(".payment-method-option");
+      methodOptions.forEach(function (option) {
+        option.addEventListener("click", function () {
+          methodOptions.forEach(function (o) { o.classList.remove("selected"); });
+          option.classList.add("selected");
+          option.querySelector("input").checked = true;
+        });
+      });
+
+      // --- Step 6: Pay Now button handler ---
+      payNowBtn.addEventListener("click", function () {
+        // Disable button to prevent double-clicks
+        payNowBtn.disabled = true;
+        payNowBtn.style.opacity = "0.6";
+        payNowBtn.textContent = "Processing...";
+
+        // Hide payment card, show processing
+        paymentCardEl.style.display = "none";
+        processingEl.style.display = "block";
+        processingEl.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // Simulate payment delay (2 seconds)
+        setTimeout(function () {
+
+          // Call backend API to enroll the user
+          fetch(API_URL + "/api/enroll", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: user.name,
+              email: user.email,
+              phone: user.phone || "N/A",
+              course: course.title,
+            }),
+          })
+            .then(function (response) { return response.json(); })
+            .then(function (result) {
+              // Hide processing, show success
+              processingEl.style.display = "none";
+              successEl.style.display = "block";
+              successEl.scrollIntoView({ behavior: "smooth", block: "center" });
+
+              // Fill success details
+              document.getElementById("success-course-name").textContent = course.title;
+              document.getElementById("success-amount").textContent = course.price;
+
+              // Generate a fake transaction ID
+              var txnId = "TXN" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
+              document.getElementById("success-txn-id").textContent = txnId;
+
+              // Auto-redirect to enrolled courses after 4 seconds
+              setTimeout(function () {
+                window.location.href = "enrolled.html";
+              }, 4000);
+            })
+            .catch(function (error) {
+              console.error("Enrollment error:", error);
+              processingEl.style.display = "none";
+              paymentCardEl.style.display = "block";
+              payNowBtn.disabled = false;
+              payNowBtn.style.opacity = "1";
+              payNowBtn.innerHTML = 'Pay Now — <span id="pay-btn-price">' + course.price + '</span>';
+              alert("Payment failed. Could not connect to server. Make sure the backend is running on port 5000.");
+            });
+
+        }, 2000);
+      });
+    });
+  </script>
+
+</body>
+</html>
