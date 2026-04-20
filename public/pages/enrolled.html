@@ -147,7 +147,7 @@
       }
 
       // Fetch enrolled courses from backend API
-      fetch(API_URL + "/api/my-courses?email=" + encodeURIComponent(user.email))
+      fetch("/api/my-courses?email=" + encodeURIComponent(user.email))
         .then(function (response) {
           return response.json();
         })
@@ -203,7 +203,7 @@
           gridEl.innerHTML =
             '<div class="form-card" style="max-width: 500px; margin: 0 auto; text-align: center;">' +
             '  <h2>⚠️ Connection Error</h2>' +
-            '  <p class="form-subtitle">Could not load your courses. Make sure the backend server is running on port 5000.</p>' +
+            '  <p class="form-subtitle">Could not load your courses. Please try again later.</p>' +
             '  <button class="btn btn-primary" onclick="location.reload()">Try Again</button>' +
             '</div>';
         });

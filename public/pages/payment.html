@@ -298,7 +298,7 @@
         setTimeout(function () {
 
           // Call backend API to enroll the user
-          fetch(API_URL + "/api/enroll", {
+          fetch("/api/enroll", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -335,7 +335,7 @@
               payNowBtn.disabled = false;
               payNowBtn.style.opacity = "1";
               payNowBtn.innerHTML = 'Pay Now — <span id="pay-btn-price">' + course.price + '</span>';
-              alert("Payment failed. Could not connect to server. Make sure the backend is running on port 5000.");
+              alert("Payment failed. Could not connect to the server. Please try again later.");
             });
 
         }, 2000);

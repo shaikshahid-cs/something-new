@@ -3,7 +3,7 @@
    =================================== */
 
 // -------- Backend API URL --------
-const API_URL = "";
+// Using relative paths directly
 
 // -------- Course Data --------
 const courses = [
@@ -320,7 +320,7 @@ function initEnrollFormHandler() {
       };
 
       // Send POST request to backend
-      fetch(API_URL + "/enroll", {
+      fetch("/enroll", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -337,7 +337,7 @@ function initEnrollFormHandler() {
         })
         .catch(function (error) {
           console.error("Enrollment error:", error);
-          alert("Could not connect to server. Make sure the backend is running on port 5000.");
+          alert("Could not connect to the server. Please try again later.");
         });
     });
   }
@@ -361,7 +361,7 @@ function initContactFormHandler() {
       };
 
       // Send POST request to backend
-      fetch(API_URL + "/contact", {
+      fetch("/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -378,7 +378,7 @@ function initContactFormHandler() {
         })
         .catch(function (error) {
           console.error("Contact error:", error);
-          alert("Could not connect to server. Make sure the backend is running on port 5000.");
+          alert("Could not connect to the server. Please try again later.");
         });
     });
   }

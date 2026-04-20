@@ -125,7 +125,7 @@
       }
 
       // Fetch enrolled courses from the proper REST API endpoint
-      fetch(API_URL + "/api/my-courses?email=" + encodeURIComponent(user.email))
+      fetch("/api/my-courses?email=" + encodeURIComponent(user.email))
         .then(function (res) { return res.json(); })
         .then(function (myCourses) {
 

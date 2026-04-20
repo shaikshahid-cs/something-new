@@ -48,7 +48,7 @@
 
   <script>
     // -------- Backend API URL --------
-    const API_URL = "";
+    // Using relative paths directly
 
     // -------- Login Form Handler --------
     document.getElementById("login-form").addEventListener("submit", function (e) {
@@ -70,7 +70,7 @@
       btn.disabled = true;
 
       // Send POST request to /login
-      fetch(API_URL + "/login", {
+      fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -103,7 +103,7 @@
         })
         .catch(function (error) {
           console.error("Login error:", error);
-          messageEl.textContent = "Could not connect to server. Make sure backend is running on port 5000.";
+          messageEl.textContent = "Could not connect to the server. Please try again later.";
           messageEl.classList.add("error");
           btn.textContent = "Login";
           btn.disabled = false;
