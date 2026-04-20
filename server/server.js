@@ -11,7 +11,7 @@ const path = require("path");
 
 // -------- Initialize Express App --------
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // -------- Middleware --------
 // Enable CORS so frontend can talk to this server
